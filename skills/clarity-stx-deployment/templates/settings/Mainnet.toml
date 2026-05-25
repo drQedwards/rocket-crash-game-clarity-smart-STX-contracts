@@ -1,0 +1,16 @@
+# Clarinet mainnet settings template.
+# Complete references/mainnet-checklist.md before generating or applying a mainnet
+# deployment plan.
+
+[network]
+name = "mainnet"
+node_rpc_address = "https://api.hiro.so"
+
+[accounts.deployer]
+mnemonic = "${STACKS_DEPLOYER_MNEMONIC}"
+
+[accounts.project-owner]
+address = "SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8"
+
+[deployment]
+plan_dir = "deployments"

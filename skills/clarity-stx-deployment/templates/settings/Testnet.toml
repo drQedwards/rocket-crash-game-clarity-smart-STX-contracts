@@ -1,0 +1,17 @@
+# Clarinet testnet settings template.
+# Replace mnemonics and balances locally; never commit funded secrets.
+
+[network]
+name = "testnet"
+node_rpc_address = "https://api.testnet.hiro.so"
+
+[accounts.deployer]
+mnemonic = "${STACKS_DEPLOYER_MNEMONIC}"
+balance = 100000000000000
+
+[accounts.project-owner]
+address = "SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8"
+balance = 0
+
+[devnet]
+disable_bitcoin_explorer = false
