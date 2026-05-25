@@ -164,7 +164,10 @@
     (if winner
       (begin
         (try! (pay-stx (get player round) net-payout))
-        (try! (pay-stx (var-get fee-recipient) fee))
+        (if (> fee u0)
+          (try! (pay-stx (var-get fee-recipient) fee))
+          true
+        )
         true
       )
       true

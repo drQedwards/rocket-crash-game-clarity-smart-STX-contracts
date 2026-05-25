@@ -166,7 +166,10 @@
     (if winner
       (begin
         (try! (pay-token token (get player round) net-payout))
-        (try! (pay-token token (var-get fee-recipient) fee))
+        (if (> fee u0)
+          (try! (pay-token token (var-get fee-recipient) fee))
+          true
+        )
         true
       )
       true

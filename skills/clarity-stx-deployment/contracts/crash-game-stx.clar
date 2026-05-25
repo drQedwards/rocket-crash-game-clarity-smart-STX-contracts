@@ -163,7 +163,10 @@
     (if won
       (begin
         (try! (pay-stx tx-sender net-payout))
-        (try! (pay-stx (var-get fee-recipient) fee))
+        (if (> fee u0)
+          (try! (pay-stx (var-get fee-recipient) fee))
+          true
+        )
         true
       )
       true
