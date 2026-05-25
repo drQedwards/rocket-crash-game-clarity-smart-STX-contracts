@@ -1,0 +1,15 @@
+# Mainnet settings — Stacks mainnet deployment
+# Used by: clarinet deployments generate --mainnet
+#
+# WARNING: Mainnet deployment uses real STX.
+# Complete the pre-mainnet checklist in SKILL.md before deploying.
+
+[network]
+name = "mainnet"
+stacks_node_rpc_address = "https://api.mainnet.hiro.so"
+deployment_fee_rate = 10
+
+[accounts.deployer]
+# Project owner principal: SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8
+# The mnemonic that derives this principal must be in .env
+mnemonic = "${STX_DEPLOYER_MNEMONIC}"

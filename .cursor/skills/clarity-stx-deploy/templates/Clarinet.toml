@@ -1,0 +1,44 @@
+# Clarinet.toml — Project manifest
+# Docs: https://docs.hiro.so/clarinet/configuration
+
+[project]
+name = "{{PROJECT_NAME}}"
+description = "Clarity smart contracts for STX deployment"
+authors = []
+telemetry = false
+cache_dir = "./.cache"
+
+# Boot contracts (loaded before yours in simnet/devnet)
+# Uncomment if using sBTC or other mainnet contracts
+# [[project.requirements]]
+# contract_id = "SP3FBR2AGK5H9QBDH3EEN6DF8EK8JY7RX8QJ5SVTE.sbtc-token"
+
+# ----- Contract registrations -----
+# Register each .clar file you want Clarinet to manage.
+# Uncomment the contracts you are using.
+
+[contracts.sip-010-trait]
+path = "contracts/sip-010-trait.clar"
+clarity_version = 2
+epoch = 2.4
+
+[contracts.fair-flip]
+path = "contracts/fair-flip-commit-reveal.clar"
+clarity_version = 2
+epoch = 2.4
+
+# [contracts.fair-flip-vrf]
+# path = "contracts/fair-flip-vrf.clar"
+# clarity_version = 2
+# epoch = 2.4
+
+# [contracts.fair-flip-sip010]
+# path = "contracts/fair-flip-sip010.clar"
+# clarity_version = 2
+# epoch = 2.4
+# depends_on = ["sip-010-trait"]
+
+# [contracts.crash-game]
+# path = "contracts/crash-game.clar"
+# clarity_version = 2
+# epoch = 2.4
