@@ -97,7 +97,7 @@ The mainnet plan is intentionally not generated in this scaffold.
 
 ## Cost estimate
 
-At `--low-cost` fee rate (10 micro-STX/byte) the testnet plan currently
-publishes 6 contracts for a total of **~2.26 STX** of testnet fees
-(~0.378 STX each). Mainnet costs are network-dependent; regenerate the plan
-against `settings/Mainnet.toml` to see live numbers.
+At `--low-cost`, the checked-in testnet plan currently publishes 6 contracts
+for a total of **~265.745 STX** of testnet fees. Network fees are dynamic;
+regenerate the plan against your own `settings/Testnet.toml` before testnet
+apply, and against `settings/Mainnet.toml` before estimating mainnet costs.
