@@ -1,0 +1,46 @@
+[project]
+name = "stacks-fair-games"
+description = "Provably-fair on-chain games on Stacks (commit-reveal + signed-VRF)"
+authors = []
+telemetry = false
+cache_dir = "./.clarinet"
+
+# Clarity 2 with Nakamoto epoch features (secp256k1-verify, stacks-block-height,
+# get-stacks-block-info?). Older epochs do NOT support these and the contracts
+# will fail to compile.
+[project.requirements]
+
+# ----- Contracts -----------------------------------------------------------
+
+[contracts.sip-010-trait]
+path = "contracts/sip-010-trait.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.fair-flip]
+path = "contracts/fair-flip-commit-reveal.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.fair-flip-vrf]
+path = "contracts/fair-flip-vrf.clar"
+clarity_version = 2
+epoch = 3.0
+
+[contracts.fair-flip-token]
+path = "contracts/fair-flip-token.clar"
+clarity_version = 2
+epoch = 3.0
+# This contract depends on `sip-010-trait` being deployed first; the
+# deployment plan generator handles ordering when `requirements` references it.
+
+[contracts.crash]
+path = "contracts/crash.clar"
+clarity_version = 2
+epoch = 3.0
+
+# ----- Deployment defaults -------------------------------------------------
+
+[repl.analysis]
+passes = ["check_checker"]
+check_checker = { trusted_sender = false, trusted_caller = false, callee_filter = false }

@@ -1,0 +1,18 @@
+.env
+.env.*
+!.env.example
+
+# Mainnet settings file may contain secrets pulled from the env at runtime.
+# Devnet and Testnet are safe to commit because their accounts have no real value.
+settings/Mainnet.toml
+
+# Generated deployment plans contain intermediate signed payloads.
+deployments/
+
+# Clarinet build cache.
+.clarinet/
+
+# Node
+node_modules/
+*.log
+.DS_Store

@@ -1,0 +1,20 @@
+{
+  "name": "stacks-fair-games",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "clarinet check",
+    "deploy:testnet": "bash scripts/deploy-testnet.sh",
+    "deploy:mainnet": "bash scripts/deploy-mainnet.sh",
+    "smoke:testnet": "bash scripts/smoke-testnet.sh"
+  },
+  "devDependencies": {
+    "@hirosystems/clarinet-sdk": "^2.11.0",
+    "@stacks/transactions": "^7.0.0",
+    "vitest": "^1.6.0",
+    "vitest-environment-clarinet": "^2.1.0"
+  }
+}

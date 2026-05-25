@@ -1,0 +1,20 @@
+[network]
+name = "mainnet"
+node_rpc_address = "https://api.hiro.so"
+deployment_fee_rate = 10
+
+# !!! THIS FILE IS GITIGNORED. DO NOT REMOVE THE GITIGNORE ENTRY. !!!
+#
+# Fill in via environment variables only — never hardcode the mnemonic.
+# The deployer principal MUST match the public address derived from the
+# mnemonic. Verify with:
+#
+#   clarinet accounts --network=mainnet
+#
+# If the user supplies a target principal (e.g. SP3PXGYY...) the mnemonic
+# below must derive to that principal. Otherwise refuse to proceed and
+# generate a fresh mainnet mnemonic together.
+
+[accounts.deployer]
+mnemonic = "${MAINNET_DEPLOYER_MNEMONIC}"
+balance = 0

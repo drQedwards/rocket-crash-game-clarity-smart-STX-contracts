@@ -1,0 +1,15 @@
+[network]
+name = "testnet"
+node_rpc_address = "https://api.testnet.hiro.so"
+deployment_fee_rate = 10
+
+# Replace with a TESTNET-ONLY mnemonic. Fund from
+# https://platform.hiro.so/faucet  (or  https://explorer.hiro.so/sandbox/faucet?chain=testnet )
+#
+# It is fine for this file to be checked in, because testnet STX has no real
+# value. NEVER commit a mainnet mnemonic. Settings/Mainnet.toml is gitignored
+# by templates/.gitignore.
+
+[accounts.deployer]
+mnemonic = "${TESTNET_DEPLOYER_MNEMONIC}"
+balance = 0
