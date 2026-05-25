@@ -45,11 +45,17 @@
 )
 
 (define-private (only-owner)
-  (asserts! (is-eq tx-sender (var-get contract-owner)) ERR_UNAUTHORIZED)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR_UNAUTHORIZED)
+    (ok true)
+  )
 )
 
 (define-private (not-paused)
-  (asserts! (not (var-get paused)) ERR_PAUSED)
+  (begin
+    (asserts! (not (var-get paused)) ERR_PAUSED)
+    (ok true)
+  )
 )
 
 (define-private (round-message-hash (round-id uint) (player principal) (wager uint) (guess-heads bool) (randomness (buff 32)))
@@ -73,7 +79,18 @@
   (is-eq
     (mod
       (buff-to-uint-be
-        (sha256 (concat randomness (unwrap-panic (to-consensus-buff? round-id))))
+        (unwrap-panic
+          (as-max-len?
+            (unwrap-panic
+              (slice?
+                (sha256 (concat randomness (unwrap-panic (to-consensus-buff? round-id))))
+                u0
+                u16
+              )
+            )
+            u16
+          )
+        )
       )
       u2
     )
@@ -95,7 +112,7 @@
       (round-id (var-get next-round-id))
       (expires-at (+ block-height (var-get settle-window)))
     )
-    (not-paused)
+    (try! (not-paused))
     (asserts! (>= wager (var-get min-wager)) ERR_BAD_WAGER)
     (try! (stx-transfer? wager tx-sender (as-contract tx-sender)))
     (map-set rounds round-id
@@ -125,7 +142,7 @@
       (fee (fee-for gross-payout))
       (net-payout (- gross-payout fee))
     )
-    (not-paused)
+    (try! (not-paused))
     (asserts! (is-eq (get status round) STATUS_OPEN) ERR_BAD_STATUS)
     (asserts! (secp256k1-verify message-hash signature (var-get oracle-public-key)) ERR_BAD_SIGNATURE)
     (if winner
@@ -160,7 +177,7 @@
 
 (define-public (set-oracle-public-key (public-key (buff 33)))
   (begin
-    (only-owner)
+    (try! (only-owner))
     (var-set oracle-public-key public-key)
     (ok public-key)
   )
@@ -168,7 +185,7 @@
 
 (define-public (set-paused (value bool))
   (begin
-    (only-owner)
+    (try! (only-owner))
     (var-set paused value)
     (ok value)
   )
@@ -176,7 +193,7 @@
 
 (define-public (set-fee-bps (value uint))
   (begin
-    (only-owner)
+    (try! (only-owner))
     (asserts! (<= value u1000) ERR_FEE_TOO_HIGH)
     (var-set fee-bps value)
     (ok value)

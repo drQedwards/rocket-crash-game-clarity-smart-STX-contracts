@@ -54,11 +54,17 @@
 )
 
 (define-private (only-owner)
-  (asserts! (is-eq tx-sender (var-get contract-owner)) ERR_UNAUTHORIZED)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR_UNAUTHORIZED)
+    (ok true)
+  )
 )
 
 (define-private (not-paused)
-  (asserts! (not (var-get paused)) ERR_PAUSED)
+  (begin
+    (asserts! (not (var-get paused)) ERR_PAUSED)
+    (ok true)
+  )
 )
 
 (define-private (seed-commitment-hash (seed (buff 32)))
@@ -71,7 +77,18 @@
   (+ u10000
     (mod
       (buff-to-uint-be
-        (sha256 (concat house-seed (unwrap-panic (to-consensus-buff? round-id))))
+        (unwrap-panic
+          (as-max-len?
+            (unwrap-panic
+              (slice?
+                (sha256 (concat house-seed (unwrap-panic (to-consensus-buff? round-id))))
+                u0
+                u16
+              )
+            )
+            u16
+          )
+        )
       )
       u1000000
     )
@@ -93,8 +110,8 @@
       (closes-at (+ block-height close-in-blocks))
       (expires-at (+ (+ block-height close-in-blocks) refund-window))
     )
-    (only-owner)
-    (not-paused)
+    (try! (only-owner))
+    (try! (not-paused))
     (map-set rounds round-id
       {
         house-commitment: house-commitment,
@@ -115,7 +132,7 @@
     (
       (round (unwrap! (map-get? rounds round-id) ERR_UNKNOWN_ROUND))
     )
-    (not-paused)
+    (try! (not-paused))
     (asserts! (is-eq (get status round) STATUS_OPEN) ERR_BAD_STATUS)
     (asserts! (< block-height (get closes-at round)) ERR_TOO_LATE)
     (asserts! (>= wager (var-get min-wager)) ERR_BAD_WAGER)
@@ -138,8 +155,8 @@
       (round (unwrap! (map-get? rounds round-id) ERR_UNKNOWN_ROUND))
       (crash-bps (compute-crash-bps round-id house-seed))
     )
-    (only-owner)
-    (not-paused)
+    (try! (only-owner))
+    (try! (not-paused))
     (asserts! (is-eq (get status round) STATUS_OPEN) ERR_BAD_STATUS)
     (asserts! (>= block-height (get closes-at round)) ERR_TOO_EARLY)
     (asserts! (is-eq (seed-commitment-hash house-seed) (get house-commitment round)) ERR_BAD_COMMITMENT)
@@ -193,7 +210,7 @@
 
 (define-public (set-paused (value bool))
   (begin
-    (only-owner)
+    (try! (only-owner))
     (var-set paused value)
     (ok value)
   )
@@ -201,7 +218,7 @@
 
 (define-public (set-fee-bps (value uint))
   (begin
-    (only-owner)
+    (try! (only-owner))
     (asserts! (<= value u1000) ERR_FEE_TOO_HIGH)
     (var-set fee-bps value)
     (ok value)

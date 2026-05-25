@@ -47,11 +47,17 @@
 )
 
 (define-private (only-owner)
-  (asserts! (is-eq tx-sender (var-get contract-owner)) ERR_UNAUTHORIZED)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR_UNAUTHORIZED)
+    (ok true)
+  )
 )
 
 (define-private (not-paused)
-  (asserts! (not (var-get paused)) ERR_PAUSED)
+  (begin
+    (asserts! (not (var-get paused)) ERR_PAUSED)
+    (ok true)
+  )
 )
 
 (define-private (player-commitment-hash (round-id uint) (player principal) (guess-heads bool) (seed (buff 32)))
@@ -71,10 +77,21 @@
   (is-eq
     (mod
       (buff-to-uint-be
-        (sha256
-          (concat
-            (concat player-seed house-seed)
-            (unwrap-panic (to-consensus-buff? round-id))
+        (unwrap-panic
+          (as-max-len?
+            (unwrap-panic
+              (slice?
+                (sha256
+                  (concat
+                    (concat player-seed house-seed)
+                    (unwrap-panic (to-consensus-buff? round-id))
+                  )
+                )
+                u0
+                u16
+              )
+            )
+            u16
           )
         )
       )
@@ -105,7 +122,7 @@
       (expires-at (+ block-height (var-get reveal-window)))
       (asset-contract (contract-of token))
     )
-    (not-paused)
+    (try! (not-paused))
     (asserts! (>= wager (var-get min-wager)) ERR_BAD_WAGER)
     (try! (contract-call? token transfer wager tx-sender (as-contract tx-sender) none))
     (map-set rounds round-id
@@ -132,7 +149,7 @@
     (
       (round (unwrap! (map-get? rounds round-id) ERR_UNKNOWN_ROUND))
     )
-    (not-paused)
+    (try! (not-paused))
     (asserts! (is-eq tx-sender (get player round)) ERR_UNAUTHORIZED)
     (asserts! (is-eq (get status round) STATUS_OPEN) ERR_BAD_STATUS)
     (asserts! (< block-height (get expires-at round)) ERR_TOO_EARLY)
@@ -159,7 +176,7 @@
       (fee (fee-for gross-payout))
       (net-payout (- gross-payout fee))
     )
-    (not-paused)
+    (try! (not-paused))
     (asserts! (is-eq (contract-of token) (get asset-contract round)) ERR_BAD_TOKEN)
     (asserts! (is-eq (get status round) STATUS_PLAYER_REVEALED) ERR_BAD_STATUS)
     (asserts! (is-eq (seed-commitment-hash house-seed) (get house-commitment round)) ERR_BAD_COMMITMENT)
@@ -196,7 +213,7 @@
 
 (define-public (set-paused (value bool))
   (begin
-    (only-owner)
+    (try! (only-owner))
     (var-set paused value)
     (ok value)
   )
@@ -204,7 +221,7 @@
 
 (define-public (set-fee-bps (value uint))
   (begin
-    (only-owner)
+    (try! (only-owner))
     (asserts! (<= value u1000) ERR_FEE_TOO_HIGH)
     (var-set fee-bps value)
     (ok value)
