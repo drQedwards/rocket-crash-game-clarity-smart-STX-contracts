@@ -4,11 +4,18 @@
 
 ### Project Structure
 
-This is a two-part blockchain casino application (not a monorepo workspace):
+This is a three-part blockchain casino application (not a monorepo workspace):
 - `crash-game-bakcend/` — Node.js/Express/TypeScript backend (port 4000)
 - `crash-game-frontend/` — React/Vite/TypeScript frontend (port 5000)
+- `clarity-stx-games/` — Clarinet project with the on-chain Stacks Clarity
+  contracts (`fair-flip-stx`, `fair-flip-sip010`, `fair-flip-signed-vrf`,
+  `crash-game-stx`, `sip010-ft-trait`, `flip-stats`). See
+  [`clarity-stx-games/README.md`](clarity-stx-games/README.md) for the
+  Clarinet/Hiro deployment workflow.
 
-Both use `npm` as the package manager (lockfiles: `package-lock.json`).
+The Node services use `npm` (lockfiles: `package-lock.json`). The Clarinet
+project uses `clarinet` (install via Hiro releases) plus `npm` for the
+clarinet-sdk vitest harness.
 
 ### Prerequisites
 
@@ -46,10 +53,23 @@ npm run dev
 
 ### Lint / Test / Build Commands
 
-| Service | Lint | Build | Dev |
-|---------|------|-------|-----|
-| Frontend | `npm run lint` | `npm run build` (currently fails, see above) | `npm run dev` |
-| Backend | N/A (no lint script) | `npm run build` (webpack) | `npm run dev` |
+| Service          | Lint           | Build / Check                                        | Dev                                          |
+| ---------------- | -------------- | ---------------------------------------------------- | -------------------------------------------- |
+| Frontend         | `npm run lint` | `npm run build` (currently fails, see above)         | `npm run dev`                                |
+| Backend          | N/A            | `npm run build` (webpack)                            | `npm run dev`                                |
+| Clarity contracts | N/A           | `clarinet check` in `clarity-stx-games/`             | `clarinet console` / `npm test` (simnet)     |
+
+### Deploying the Clarity contracts
+
+1. Install Clarinet from the Hiro releases page (binary at `~/.local/bin/clarinet`).
+2. `cd clarity-stx-games && clarinet check`
+3. Fund a fresh testnet deployer, put its mnemonic into the gitignored
+   `clarity-stx-games/settings/Testnet.toml`.
+4. `clarinet deployments generate --testnet --low-cost`, inspect
+   `deployments/default.testnet-plan.yaml`, then
+   `clarinet deployments apply --testnet`.
+5. Do not run mainnet `apply` until every box in
+   `clarity-stx-games/docs/mainnet-checklist.md` is ticked.
 
 ### Environment Variables
 
