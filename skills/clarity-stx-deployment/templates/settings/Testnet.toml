@@ -1,17 +1,30 @@
-# Clarinet testnet settings template.
-# Replace mnemonics and balances locally; never commit funded secrets.
+# Clarinet testnet settings.
+#
+# Local copy in any concrete project (settings/Testnet.toml) is gitignored by the
+# scaffold so funded mnemonics never enter source control.
+#
+# Three ways to supply the deployer mnemonic, in order of preference:
+#
+# 1. clarinet deployments encrypt
+#    Encrypts a seed phrase with a password and writes the encrypted form here.
+#    The decryption password is prompted at deploy time.
+#
+# 2. Paste a plain mnemonic into the `mnemonic` field below. Keep the file
+#    gitignored. Never commit a funded mnemonic.
+#
+# 3. CI/CD substitution. Use envsubst or your CI runner to replace the literal
+#    string `__STACKS_DEPLOYER_MNEMONIC__` with the secret value just before
+#    `clarinet deployments generate --testnet`.
 
 [network]
 name = "testnet"
-node_rpc_address = "https://api.testnet.hiro.so"
+stacks_node_rpc_address = "https://api.testnet.hiro.so"
+deployment_fee_rate = 10
 
 [accounts.deployer]
-mnemonic = "${STACKS_DEPLOYER_MNEMONIC}"
+mnemonic = "<YOUR PRIVATE TESTNET MNEMONIC HERE>"
 balance = 100000000000000
 
 [accounts.project-owner]
 address = "SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8"
 balance = 0
-
-[devnet]
-disable_bitcoin_explorer = false

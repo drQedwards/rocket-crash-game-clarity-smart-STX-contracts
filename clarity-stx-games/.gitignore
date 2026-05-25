@@ -1,0 +1,14 @@
+**/settings/Mainnet.toml
+**/settings/Testnet.toml
+.cache/**
+history.txt
+.env
+
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+coverage
+*.info
+costs-reports.json
+node_modules

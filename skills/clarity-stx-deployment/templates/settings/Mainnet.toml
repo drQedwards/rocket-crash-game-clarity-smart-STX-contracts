@@ -1,16 +1,24 @@
-# Clarinet mainnet settings template.
-# Complete references/mainnet-checklist.md before generating or applying a mainnet
-# deployment plan.
+# Clarinet mainnet settings.
+#
+# Local copy in any concrete project (settings/Mainnet.toml) is gitignored by the
+# scaffold so funded mnemonics never enter source control.
+#
+# Complete references/mainnet-checklist.md before generating or applying a
+# mainnet deployment plan.
+#
+# Recommended: encrypt the mnemonic with
+#   clarinet deployments encrypt
+# and let Clarinet prompt for the password at deploy time.
 
 [network]
 name = "mainnet"
-node_rpc_address = "https://api.hiro.so"
+stacks_node_rpc_address = "https://api.hiro.so"
+deployment_fee_rate = 10
 
 [accounts.deployer]
-mnemonic = "${STACKS_DEPLOYER_MNEMONIC}"
+mnemonic = "<YOUR PRIVATE MAINNET MNEMONIC HERE>"
+balance = 0
 
 [accounts.project-owner]
 address = "SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8"
-
-[deployment]
-plan_dir = "deployments"
+balance = 0
