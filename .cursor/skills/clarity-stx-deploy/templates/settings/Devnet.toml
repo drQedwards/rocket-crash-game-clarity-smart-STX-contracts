@@ -1,0 +1,30 @@
+# Devnet settings — local Stacks node + Bitcoin regtest
+# Used by: clarinet devnet start
+
+[network]
+name = "devnet"
+stacks_node_rpc_address = "http://localhost:20443"
+bitcoin_node_rpc_address = "http://localhost:18443"
+bitcoin_node_username = "devnet"
+bitcoin_node_password = "devnet"
+
+# Orchestrator manages the local devnet lifecycle
+[network.orchestrator]
+working_dir = ".devnet"
+
+[accounts.deployer]
+mnemonic = "twice particular replace describe ticket cattle woman return hurdle ordinary burger comfort"
+# Devnet deployer address: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+balance = 100_000_000_000_000  # 100M STX
+
+[accounts.wallet_1]
+mnemonic = "sell invite acquire kitten bamboo drastic jelly vivid peace spawn twice guilt"
+balance = 100_000_000_000_000
+
+[accounts.wallet_2]
+mnemonic = "hold excess usual excess ring elephant install account animal craft model float"
+balance = 100_000_000_000_000
+
+[accounts.wallet_3]
+mnemonic = "cycle puppy glare enroll cost improve round trend wrist mushroom scorpion tower"
+balance = 100_000_000_000_000

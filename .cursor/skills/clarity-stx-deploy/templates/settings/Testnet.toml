@@ -1,0 +1,12 @@
+# Testnet settings — Stacks testnet deployment
+# Used by: clarinet deployments generate --testnet
+
+[network]
+name = "testnet"
+stacks_node_rpc_address = "https://api.testnet.hiro.so"
+deployment_fee_rate = 10
+
+[accounts.deployer]
+# Use environment variable for testnet mnemonic
+mnemonic = "${STX_DEPLOYER_MNEMONIC}"
+# Testnet deployer: fund via https://explorer.hiro.so/sandbox/faucet?chain=testnet
