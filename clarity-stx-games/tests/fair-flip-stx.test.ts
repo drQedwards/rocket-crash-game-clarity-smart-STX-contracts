@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { boolCV, bufferCV, cvToString, uintCV } from "@stacks/transactions";
 
 // Starter Clarinet/Vitest test file. Copy this into the generated Clarinet project
 // and expand each case before any testnet/mainnet deployment.
@@ -16,7 +17,9 @@ describe("fair-flip-stx", () => {
       deployer,
     );
 
-    expect(response.result).toContain("SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8");
+    expect(cvToString(response.result)).toContain(
+      "SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8",
+    );
   });
 
   it("rejects wagers below the minimum", () => {
@@ -24,14 +27,14 @@ describe("fair-flip-stx", () => {
       "fair-flip-stx",
       "create-flip",
       [
-        "0x1111111111111111111111111111111111111111111111111111111111111111",
-        "0x2222222222222222222222222222222222222222222222222222222222222222",
-        "u1",
-        "true",
+        bufferCV(Buffer.alloc(32, 0x11)),
+        bufferCV(Buffer.alloc(32, 0x22)),
+        uintCV(1),
+        boolCV(true),
       ],
       wallet1,
     );
 
-    expect(response.result).toBeErr();
+    expect(response.result).toBeErr(uintCV(102));
   });
 });
