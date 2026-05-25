@@ -1,0 +1,30 @@
+[project]
+name = "clip-rocket-stx"
+description = "STX Clarity templates for fair flip and crash games"
+authors = ["skill-template"]
+telemetry = false
+cache_dir = "./.cache"
+
+[contracts.sip010-trait]
+path = "contracts/sip010-trait.clar"
+clarity_version = 2
+
+[contracts.fair-flip-commit-reveal]
+path = "contracts/fair-flip-commit-reveal.clar"
+clarity_version = 2
+
+[contracts.fair-flip-vrf]
+path = "contracts/fair-flip-vrf.clar"
+clarity_version = 2
+
+[contracts.fair-flip-sip010]
+path = "contracts/fair-flip-sip010.clar"
+clarity_version = 2
+
+[contracts.crash-rocket]
+path = "contracts/crash-rocket.clar"
+clarity_version = 2
+
+[contracts.clip-orderbook]
+path = "contracts/clip-orderbook.clar"
+clarity_version = 2

@@ -1,0 +1,6 @@
+[network]
+name = "testnet"
+node_rpc_address = "https://api.testnet.hiro.so"
+
+[accounts.deployer]
+mnemonic = "REPLACE_WITH_DEPLOYER_MNEMONIC"

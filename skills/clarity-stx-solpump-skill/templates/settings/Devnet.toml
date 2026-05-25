@@ -1,0 +1,7 @@
+[network]
+name = "devnet"
+node_rpc_address = "http://localhost:20443"
+
+[accounts.deployer]
+mnemonic = "replace-me"
+balance = 100000000000000
