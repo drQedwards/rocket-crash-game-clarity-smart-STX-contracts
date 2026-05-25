@@ -1,0 +1,35 @@
+[project]
+name = "clarity-stx-games"
+description = "Stacks Clarity fair flip and crash templates"
+authors = ["SP3PXGYYR9Y7GCQKNDWTWJW4R1YMAZ97VKSDWAGB8"]
+telemetry = false
+cache_dir = ".cache"
+requirements = []
+
+[contracts.sip010-ft-trait]
+path = "contracts/sip010-ft-trait.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.fair-flip-stx]
+path = "contracts/fair-flip-stx.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.fair-flip-signed-vrf]
+path = "contracts/fair-flip-signed-vrf.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.fair-flip-sip010]
+path = "contracts/fair-flip-sip010.clar"
+clarity_version = 2
+epoch = 2.5
+
+[contracts.crash-game-stx]
+path = "contracts/crash-game-stx.clar"
+clarity_version = 2
+epoch = 2.5
+
+[repl.analysis]
+passes = ["check_checker"]
